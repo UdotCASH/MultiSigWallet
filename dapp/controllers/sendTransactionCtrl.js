@@ -10,7 +10,9 @@
       $scope.params = [];
 
       $scope.send = function () {
-        var tx = {};
+        var tx = Wallet.txDefaults({
+          gas: 21000
+        });
         Object.assign(tx, $scope.tx);
         var params = [];
         Object.assign(params, $scope.params);
@@ -95,6 +97,8 @@
         }
         tx.value = new Web3().toBigNumber($scope.tx.value).mul('1e18');
         tx.from = Web3Service.coinbase;
+        tx.gas = 21000;
+        
         // if method, use contract instance method
         if ($scope.method && $scope.method.index !== undefined && $scope.method.index !== "") {
           Transaction.simulateMethod(tx, $scope.abiArray, $scope.method.name, params, function (e, tx) {
